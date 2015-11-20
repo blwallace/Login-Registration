@@ -4,8 +4,8 @@ class User extends CI_Model {
 
 	public function add_user($form,$password)
 	{
-		$query= 'INSERT INTO users (user_name,alias,email,password,created_at,dob) VALUES (?,?,?,?,Now(),?)';
-		$values= array($form['user_name'],$form['alias'],$form['email'],$password,$form['dob']);
+		$query= 'INSERT INTO users (user_name,alias,email,password,created_at,dob,updated_at,question,answer) VALUES (?,?,?,?,Now(),Now(),Now(),?,?)';
+		$values= array($form['user_name'],$form['alias'],$form['email'],$password,$form['question'],$form['answer']);
 		return $this->db->query($query,$values);		
 	}
 
@@ -45,6 +45,12 @@ class User extends CI_Model {
 	public function check_failed_login_attempts($id){
 		$query = 'SELECT * FROM logins WHERE user_id = ? ORDER BY id DESC LIMIT 5';
 		$values = array($id);
+		return $this->db->query($query,$values)->result_array();
+	}
+
+	public function get_question($email){
+		$query = 'SELECT question FROM users WHERE email = ?';
+		$values = array($email);
 		return $this->db->query($query,$values)->result_array();
 	}
 }

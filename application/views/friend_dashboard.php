@@ -3,6 +3,14 @@
     <div class="col-md-3"></div>
     <div class="col-md-6">
     <div class='content'>
+                <h5>
+<!-- // This section is used mainly to display errors during the registration process -->
+              <?php 
+        echo $this->session->flashdata('login_error');
+        echo $this->session->flashdata('registration_error');
+         ?>
+         <div id="errors"></div>
+      </h5>	
 
     <h3>Here is a list of your friends!</h3>
 

@@ -39,35 +39,47 @@ class Users extends CI_Controller {
                    'user_name' => $data['user_name'],
                    'alias' => $data['alias'],
                    'is_logged_in' => true,
-                   // 'type' => $data['type'],
+                   'updated_at' => $data['updated_at'],
                 );
+                if($this->check_login_expiration('-60 day','Now',$data['updated_at']))
+                {
+                    $this->session->set_flashdata("login_error", "Last password change was >60 days ago. <a href = '/users/reset'>Please consider resetting your password </a>");
+                }
                 $this->session->set_userdata($user);
 				redirect('/friends/index');	
             }
             else
             {
                 $this->session->set_flashdata("login_error", "Invalid email or password!");
-                $this->user->login_attempt_unsuccessful($data['id'],$this->input->ip_address());
-				if($this->check_logins_fail($data['id'])){
-                    echo "Too many login failures";
+                if(isset($data_users[0]))
+                {
+                    $this->user->login_attempt_unsuccessful($data['id'],$this->input->ip_address());
+                    
+                    if($this->check_logins_fail($data['id'])){
+                        $this->session->set_flashdata("login_error", "Invalid email or password! Too many Login Failures");
+
+                        redirect('/users/reset');  
+                    }
                 }
-                else{
-                    redirect('');   
-                }
+                     
             }
         }
 
         else
-        {
+             {
                 $this->session->set_flashdata("login_error", "Invalid email or password!");
-                $this->user->login_attempt_unsuccessful($data['id'],$this->input->ip_address());
-                if($this->check_logins_fail($data['id'])){
-                    echo "Too many login failures";
+                if(isset($data_users[0]))
+                {
+                    $this->user->login_attempt_unsuccessful($data['id'],$this->input->ip_address());
+                    
+                    if($this->check_logins_fail($data['id'])){
+                        $this->session->set_flashdata("login_error", "Invalid email or password! Too many Login Failures");
+
+                        redirect('/users/reset');  
+                    }
                 }
-                else{
-                    redirect('');   
-                }	
-        }
+                     
+            }
 
 
 		$this->load->view('index');  
@@ -94,7 +106,7 @@ class Users extends CI_Controller {
         $this->form_validation->set_rules('answer','Answer to security question','required');          
 
         // these are password specific rules
-        $this->form_validation->set_rules('password', 'Password', 'required|matches[confirm]|min_length[8]|alpha_numeric|password_check[1,1,1]');
+        $this->form_validation->set_rules('password', 'Password', 'required|matches[confirm]|min_length[8]|password_check[1,1,1]');
         $this->form_validation->set_rules('confirm', 'Confirm Password', 'required|');
 
         $this->form_validation->set_message('is_unique', '%s is already taken');  //custom error messages
@@ -150,6 +162,7 @@ class Users extends CI_Controller {
             if($logins[$i]['successful'] == 1){
                 $indicator = false;
             }
+
         }
         return $indicator;
 
@@ -158,7 +171,32 @@ class Users extends CI_Controller {
     }
 
 
+    public function check_login_expiration($start_date, $end_date, $date_from_user)
+    {
+      // Convert to timestamp
+      $start_ts = strtotime($start_date);
+      $end_ts = strtotime($end_date);
+      $user_ts = strtotime($date_from_user);
 
+      // Check that user date is between start & end
+      return (($user_ts >= $start_ts) && ($user_ts <= $end_ts));
+    }
+
+    public function question(){
+        $form=$this->input->post(null,true); //pull in post data
+        $result = $this->user->get_question($form['email']);
+        
+        //if valid login
+        if(isset($result[0]))
+        {
+            $data = array('json' => $result[0]);
+            $this->load->view('/partials/json',$data);
+        }
+        else{
+            $data = array('json' => $result[0]);
+            $this->load->view('/partials/json',$data);
+        }
+    }
 
 
 }
