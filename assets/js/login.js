@@ -104,14 +104,29 @@ $(document).ready(function(){
 				});
 			})
 
-			$("#questionForm").submit(function(event){
-				// console.log($("#emailreset").val());
+			$("#answerForm").submit(function(event){
+				console.log($("#password").val());
 				event.preventDefault();
-				$.post( "/users/resetpassword", { email: $("#emailreset").val(), answer:$("#answerreset").val(), password:$("#password")})
+				// $.post( "/users/resetpassword", { email: $("#emailreset").val(), answer:$("#answerreset").val(), password: $("#password").val()})
+				//   .done(function( data ) {
+				//   	console.log( "Data Loaded: " + data );
+				// });
+				$.post( "/users/resetpassword", { email: $("#emailreset").val(), password:$("#password").val(), confirm: $("#confirm").val()})
 				  .done(function( data ) {
-				  	$("#questionForm").hide();
 				  	console.log( "Data Loaded: " + data );
+				  	if(data == 0){
+				  		$("#emailMessage1").hide();
+				  		$("#failure2").show();
+
+				  	}
+				  	else{
+				  		$("#answerForm").hide();
+				  		$("#emailMessage1").hide();
+				  		$("#successreset").show();
+				  	}
+				  
 				});
+
 			})
 				
 		});

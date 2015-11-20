@@ -41,7 +41,7 @@ class Users extends CI_Controller {
                    'is_logged_in' => true,
                    'updated_at' => $data['updated_at'],
                 );
-                if($this->check_login_expiration('-60 day','Now',$data['updated_at']))
+                if(!$this->check_login_expiration('-60 day','Now',$data['updated_at']))
                 {
                     $this->session->set_flashdata("login_error", "Last password change was >60 days ago. <a href = '/users/reset'>Please consider resetting your password </a>");
                 }
@@ -215,10 +215,26 @@ class Users extends CI_Controller {
     }
 
     public function resetpassword(){
-        $form=$this->input->post(null,true); //pull in post data
-        $result = $this->user->get_answer($form['email'],$form['answer'],$password['password']);
+        $form=$this->input->post(null,true); //pull in post data    
+
+        // $this->main->admin_validation();
+        $this->load->library('form_validation');
+        $this->load->library('MY_Form_validation');
+        // these are password specific rules
+        $this->form_validation->set_rules('password', 'Password', 'required|matches[confirm]|min_length[8]|password_check[1,1,1]');
         
-        $data = array('json' => array('question'=>"Password Reset"));
+        if($this->form_validation->run() === FALSE) //displays error message if form validation rules were violated
+        {
+            $data = array('json' => array('question'=>"0"));
+        }    
+        else{
+            $salt = bin2hex(openssl_random_pseudo_bytes(22));  //encrypts password
+            $password = crypt($form['password'],$salt);
+            $result = $this->user->reset_password($form['email'],$password);
+            
+            $data = array('json' => array('question'=>"Password Reset"));
+        } 
+
         $this->load->view('/partials/json',$data);
 
     }

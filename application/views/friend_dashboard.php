@@ -21,13 +21,14 @@
 			</tr>
 
 <?php
+			if(isset($friends[0]['friend_id'])){
 			foreach($friends as $friend)
 			{?>
 				<tr>
 					<td><?= $friend['alias']?></td>
 					<td><a href="/users/show/<?= $friend['friend_id'] ?>">View Profile</a> | <a href="/friends/remove/<?= $friend['friend_id'] ?>">Remove as Friend</a></td>
 				</tr>
-<?php		}?>		
+<?php		}}?>		
 
 		</table>
 

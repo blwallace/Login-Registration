@@ -59,9 +59,9 @@ class User extends CI_Model {
 		return $this->db->query($query,$values)->result_array();
 	}
 
-	public function reset_password($email,$answer){
-		$query = 'UPDATE users SET password=? WHERE email=?,answer=?,password=?';
-		$values = array($email,$answer,$password);
+	public function reset_password($email,$password){
+		$query = 'UPDATE users SET password=? WHERE email=?';
+		$values = array($password,$email);
 		return $this->db->query($query,$values);
 	}
 }
