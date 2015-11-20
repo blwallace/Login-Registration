@@ -193,9 +193,34 @@ class Users extends CI_Controller {
             $this->load->view('/partials/json',$data);
         }
         else{
-            $data = array('json' => $result[0]);
+            $data = array('json' => array('question'=>"What is your favorite sports team?"));
             $this->load->view('/partials/json',$data);
         }
+    }
+
+    public function answer(){
+        $form=$this->input->post(null,true); //pull in post data
+        $result = $this->user->get_answer($form['email'],$form['answer']);
+        
+        //if valid login
+        if(isset($result[0]))
+        {
+            $data = array('json' => array('question'=>1));
+            $this->load->view('/partials/json',$data);
+        }
+        else{
+            $data = array('json' => array('question'=>0));
+            $this->load->view('/partials/json',$data);
+        }
+    }
+
+    public function resetpassword(){
+        $form=$this->input->post(null,true); //pull in post data
+        $result = $this->user->get_answer($form['email'],$form['answer'],$password['password']);
+        
+        $data = array('json' => array('question'=>"Password Reset"));
+        $this->load->view('/partials/json',$data);
+
     }
 
 

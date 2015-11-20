@@ -73,11 +73,44 @@ $(document).ready(function(){
 
 			// })	
 
-			$("#emailreset").focusout(function(){
+			$("#loginreset").submit(function(event){
 				// console.log($("#emailreset").val());
+				event.preventDefault();
 				$.post( "/users/question", { email: $("#emailreset").val()})
 				  .done(function( data ) {
+				  	$("#loginreset").hide();
+				  	$("#questionForm").show();
+				  	$("#resetQuestion").append(data);
 				    console.log( "Data Loaded: " + data );
+				});
+			})
+
+			$("#questionForm").submit(function(event){
+				// console.log($("#emailreset").val());
+				event.preventDefault();
+				$.post( "/users/answer", { email: $("#emailreset").val(), answer:$("#answerreset").val()})
+				  .done(function( data ) {
+				  	$("#questionForm").hide();
+				  	console.log( "Data Loaded: " + data );
+				  	//do this if the answer qas correct
+				  	if(data == 1){
+					  	$("#emailMessage1").show();
+					  	$("#answerForm").delay(2000).fadeIn(500);
+				  	}
+				  	//do this if the answer was incorrect
+				  	else{
+					  	$("#failure1").show();
+				  	}
+				});
+			})
+
+			$("#questionForm").submit(function(event){
+				// console.log($("#emailreset").val());
+				event.preventDefault();
+				$.post( "/users/resetpassword", { email: $("#emailreset").val(), answer:$("#answerreset").val(), password:$("#password")})
+				  .done(function( data ) {
+				  	$("#questionForm").hide();
+				  	console.log( "Data Loaded: " + data );
 				});
 			})
 				

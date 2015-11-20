@@ -53,6 +53,17 @@ class User extends CI_Model {
 		$values = array($email);
 		return $this->db->query($query,$values)->result_array();
 	}
+	public function get_answer($email,$answer){
+		$query = 'SELECT question FROM users WHERE email = ? AND answer = ?';
+		$values = array($email,$answer);
+		return $this->db->query($query,$values)->result_array();
+	}
+
+	public function reset_password($email,$answer){
+		$query = 'UPDATE users SET password=? WHERE email=?,answer=?,password=?';
+		$values = array($email,$answer,$password);
+		return $this->db->query($query,$values);
+	}
 }
 
 /* End of file user.php */
