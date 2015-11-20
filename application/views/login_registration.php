@@ -28,7 +28,7 @@
         <input type='password' name='confirm' class="form-control" placeholder="Confirm Password">
         <select name="question" class="form-control" placeholder="Select Question">
           <option value="" disabled selected>Select a Question</option>
-          <option value="1">What was your first car?</option>
+          <option value="1">What was the model of your first car?</option>
           <option value="2">What city where you born?</option>
           <option value="3">What is your greatest fear?</option>
         </select>
