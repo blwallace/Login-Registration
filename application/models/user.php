@@ -64,6 +64,20 @@ class User extends CI_Model {
 		$values = array($password,$email);
 		return $this->db->query($query,$values);
 	}
+
+	public function add_password($id,$password)
+	{
+		$query= 'INSERT INTO account_history (userid,password,created_at) VALUES (?,?,Now())';
+		$values= array($id,$password);
+		return $this->db->query($query,$values);		
+	}
+
+	public function password_original($id){
+		$query="SELECT * FROM account_history WHERE userid=?";
+		$values= array($id);
+		return $this->db->query($query,$values)->result_array();
+	}	
+
 }
 
 /* End of file user.php */

@@ -32,8 +32,8 @@
 
      <h5 id="failure1" style="display:none;">The user gets this message if the password reset was unsuccessful.<br><br>  This means either his login email was invalid or his answer was incorrect</h5>
      <h5 id="emailMessage1" style="display:none;">Please look in your inbox for a link to reset your password.  <br><br>However, I haven't set up an email system, so you get to reset your password NOW =)</h5>
-     <h5 id="failure2" style="display:none;">Nice Job, you fucked up =) Make sure your passwords match</h5>
-    <h5 id="successreset" style="display:none;">Password reset. <a href="/">Try logging in again</a></h5>
+     <h5 id="failure2" style="display:none;">Make sure your passwords match</h5>
+    <h5 id="successreset" style="display:none;"></h5>
     <form id = "answerForm" style="display:none;">
         <input type='password' name='password' class="form-control" placeholder="Password" id="password">
         <input type='password' name='confirm' class="form-control" placeholder="Confirm Password" id ="confirm">

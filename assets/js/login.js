@@ -122,6 +122,7 @@ $(document).ready(function(){
 				  	else{
 				  		$("#answerForm").hide();
 				  		$("#emailMessage1").hide();
+				  		$("#successreset").append(data);
 				  		$("#successreset").show();
 				  	}
 				  

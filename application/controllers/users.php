@@ -56,11 +56,12 @@ class Users extends CI_Controller {
                     $this->user->login_attempt_unsuccessful($data['id'],$this->input->ip_address());
                     
                     if($this->check_logins_fail($data['id'])){
-                        $this->session->set_flashdata("login_error", "Invalid email or password! Too many Login Failures");
-
+                        $this->session->set_flashdata("login_error", "Invalid email or password! Too many Login Failures, your account has been locked.  ");
+                        $this->kill_account($data['email']);
                         redirect('/users/reset');  
                     }
                 }
+                redirect('');
                      
             }
         }
@@ -74,10 +75,11 @@ class Users extends CI_Controller {
                     
                     if($this->check_logins_fail($data['id'])){
                         $this->session->set_flashdata("login_error", "Invalid email or password! Too many Login Failures");
-
+                        $this->kill_account($data['email']);
                         redirect('/users/reset');  
                     }
                 }
+                redirect('');
                      
             }
 
@@ -129,6 +131,8 @@ class Users extends CI_Controller {
             $password = crypt($form['password'],$salt);
 
             $this->user->add_user($form,$password);
+            $user = $this->user->get_user($form['email']);
+            $this->user->add_password($user[0]['id'],$password);
             $this->login();
             redirect(base_url());
         }	
@@ -156,14 +160,20 @@ class Users extends CI_Controller {
     public function check_logins_fail($id){
         $logins = $this->user->check_failed_login_attempts($id);
         $indicator = true;
-        for($i = 0; $i < 5; $i++){
-            
+        if(count($logins) >= 5){
 
-            if($logins[$i]['successful'] == 1){
-                $indicator = false;
-            }
+            for($i = 0; $i < 5; $i++){
+                
 
+                if($logins[$i]['successful'] == 1){
+                    $indicator = false;
+                }
+
+            }}
+        else{
+            $indicator = false;
         }
+        
         return $indicator;
 
 //blwallace2015@gmail.com
@@ -231,14 +241,61 @@ class Users extends CI_Controller {
             $salt = bin2hex(openssl_random_pseudo_bytes(22));  //encrypts password
             $password = crypt($form['password'],$salt);
             $result = $this->user->reset_password($form['email'],$password);
-            
-            $data = array('json' => array('question'=>"Password Reset"));
+
+            $user = $this->user->get_user($form['email']);
+            //if password isn't original for user do this
+            if($this->password_not_original($user[0]['id'],$form['password'])){
+                $data = array('json' => array('question'=>"Please choose a password you haven't used before. Password not reset. <a href='/users/reset'>Try again</a> "));
+            }
+            //if password is original, reset
+            else{
+                $this->user->add_password($user[0]['id'],$password);
+                $data = array('json' => array('question'=>"Password Reset"));
+            }
+
+
         } 
 
         $this->load->view('/partials/json',$data);
 
     }
 
+    public function kill_account($email){
+            $salt = bin2hex(openssl_random_pseudo_bytes(22));  //encrypts password
+            $password = crypt($salt,$salt);
+            $result = $this->user->reset_password($email,$password);
+            
+            $data = array('json' => array('question'=>"Password Reset"));
+    }
+
+    // private function password_not_original($id,$password){
+    //     $result = $this->user->password_original($id);
+    //     $bool = false;
+
+    //     for($i=0;$i<count($result);$i++){
+    //         if(crypt($password,$result[$i]['password']) == $result[$i]['password']){
+    //             $bool = true;
+    //         }
+    //     }
+
+    //     return $bool;
+    // }
+
+    public function password_not_original(){
+        $result = $this->user->password_original(20);
+        $bool = false;
+
+        $password = 'Blahbla22';
+        $enc = '1eQPveIcY9wNs';
+
+        echo $password . "<br>";
+        
+        echo $enc. "<br>";
+        echo crypt($password,$enc). "<br>";
+
+
+
+    }
 
 }
 
