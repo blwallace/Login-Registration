@@ -21,9 +21,9 @@
 
       <h3>Registration</h3>
       <form action='/users/add' method='post' id="registration">
-        <input type='text' name='email' class="form-control" placeholder="Email" value="Test@gmail.com">
-        <input type='text' name='user_name' class="form-control" placeholder="Name" value = "testname" id = "name">
-        <input type='text' name='alias' class="form-control" placeholder="Alias" value = "test alias" id = "alias">
+        <input type='text' name='email' class="form-control" placeholder="Email">
+        <input type='text' name='user_name' class="form-control" placeholder="Name" id = "name">
+        <input type='text' name='alias' class="form-control" placeholder="Alias" id = "alias">
         <input type='password' name='password' class="form-control" placeholder="Password" id="password">
         <input type='password' name='confirm' class="form-control" placeholder="Confirm Password">
         <select name="question" class="form-control" placeholder="Select Question">

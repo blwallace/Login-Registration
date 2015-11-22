@@ -26,9 +26,8 @@ class Users extends CI_Controller {
       	if(isset($data_users[0]))
         {
         	$data = $data_users[0];
-            $enc_password = crypt($password,$data['password']); //If you 'crypt' a non-encrypted password with an encrypted password, the successful result will be the encrypted password
 
-            if($data['password'] == $enc_password) //do the encrypted passwords match? if yes, then log in
+            if(password_verify($password,$data['password'])) //do the encrypted passwords match? if yes, then log in
             {
                 //log the login
                 $this->user->login_attempt_successful($data['id'],$this->input->ip_address());
@@ -127,8 +126,8 @@ class Users extends CI_Controller {
         {
             $form=$this->input->post(null,true); //pull in post data
 
-            $salt = bin2hex(openssl_random_pseudo_bytes(22));  //encrypts password
-            $password = crypt($form['password'],$salt);
+            
+            $password = password_hash($form['password'],PASSWORD_BCRYPT);
 
             $this->user->add_user($form,$password);
             $user = $this->user->get_user($form['email']);
@@ -238,8 +237,8 @@ class Users extends CI_Controller {
             $data = array('json' => array('question'=>"0"));
         }    
         else{
-            $salt = bin2hex(openssl_random_pseudo_bytes(22));  //encrypts password
-            $password = crypt($form['password'],$salt);
+            
+            $password = password_hash($form['password'],PASSWORD_BCRYPT);
             $result = $this->user->reset_password($form['email'],$password);
 
             $user = $this->user->get_user($form['email']);
@@ -268,34 +267,28 @@ class Users extends CI_Controller {
             $data = array('json' => array('question'=>"Password Reset"));
     }
 
-    // private function password_not_original($id,$password){
-    //     $result = $this->user->password_original($id);
-    //     $bool = false;
-
-    //     for($i=0;$i<count($result);$i++){
-    //         if(crypt($password,$result[$i]['password']) == $result[$i]['password']){
-    //             $bool = true;
-    //         }
-    //     }
-
-    //     return $bool;
-    // }
-
-    public function password_not_original(){
-        $result = $this->user->password_original(20);
+    private function password_not_original($id,$password){
+        $result = $this->user->password_original($id);
         $bool = false;
 
-        $password = 'Blahbla22';
-        $enc = '1eQPveIcY9wNs';
+        for($i=0;$i<count($result);$i++){
+            if(password_verify($password, $result[$i]['password'])){
+                $bool = true;
+            }
+        }
 
-        echo $password . "<br>";
-        
-        echo $enc. "<br>";
-        echo crypt($password,$enc). "<br>";
-
-
-
+        return $bool;
     }
+
+    public function password_test(){
+            $un = 'Blahblah1!3';
+            $password = password_hash($un,PASSWORD_BCRYPT);
+            if(password_verify('Blahblah1!', $password)){
+                echo $password;
+            }
+    }
+
+
 
 }
 
