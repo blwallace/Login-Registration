@@ -5,20 +5,24 @@ $(document).ready(function(){
 		$( "#password" ).focusout(function(){
 				//clears out error queue
 				$("#errors").empty();
+				var cleanPassword = true;
 
 		    	var str = $( "#password" ).val();
 		    	// Mimimum length requirement
 		    	if( str.length < 8){
 		    		$("#errors").append("Password must be at least 8 characters <br>");
+		    		cleanPassword = false;
 		    	}
 
 		    	strLow = str.toLowerCase(); 
 		    	strHigh = str.toUpperCase();
 		    	if(strLow == str){
 		    		$("#errors").append("Password must contain at least one upper case character<br>");
+		    		cleanPassword = false;
 		    	}
 		    	else if(strHigh == str){
 		    		$("#errors").append("Password must contain at least one lower case character<br>");
+		    		cleanPassword = false;
 		    	}
 
 		    	var sCharArr = ["!","#","$","%","&","'","(",")","*","+",",","-",".","/",":",";","<","=",">","?","@","[","]","^","_","{","|","}","~"];
@@ -36,13 +40,15 @@ $(document).ready(function(){
 				}
 				if(sCharB == false){
 					$("#errors").append("Password must contain at least one special character<br>");
+					cleanPassword = false;
 				}
 
 				for(i = 0; i < wordList.length; i++){
 					var res = strLow.match(wordList[i]);
-					if(res != null){
+					if(res != null && res!=""){
 						console.log(res)
 						$("#errors").append("You cannot use the phrase " + res + " in your password <br>");
+						cleanPassword = false;
 						break;
 					};
 					
@@ -51,14 +57,18 @@ $(document).ready(function(){
 				var inputList = [$( "#name" ).val().toLowerCase(),$( "#alias" ).val().toLowerCase()]
 				for(i = 0; i < inputList.length; i++){
 					var res = strLow.match(inputList[i]);
-					if(res != null){
+					if(res != null && res!=""){
 						console.log(res)
 						$("#errors").append("You cannot use the phrase " + res + " in your password <br>");
+						cleanPassword = false;
 						break;
 					};
 				
 				}
 
+				if(cleanPassword==true){
+					$("#regbut").prop('disabled',false);
+				}
 
 		    });
 

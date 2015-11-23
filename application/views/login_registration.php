@@ -33,7 +33,7 @@
           <option value="What is your greatest fear?">What is your greatest fear?</option>
         </select>
         <input type='text' name='answer' class="form-control" placeholder="Answer">
-        <button type="submit" class="btn btn-success">Register</button>
+        <button type="submit" class="btn btn-success" disabled id="regbut">Register</button>
       </form>
     </div>
     <div class="col-md-4"></div>

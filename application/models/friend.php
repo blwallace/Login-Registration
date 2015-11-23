@@ -41,7 +41,7 @@ class Friend extends CI_Model {
 
 	public function add_friend($friend_id,$user_id)
 	{
-		$query = '	INSERT INTO FRIENDS (user_id,friend_id,created_at)
+		$query = '	INSERT INTO friends (user_id,friend_id,created_at)
 					VALUES (?,?,Now())';
 		$values = array($user_id,$friend_id);
 		return $this->db->query($query,$values);
