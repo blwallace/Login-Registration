@@ -12,9 +12,9 @@
       </h5>
 
       <h2>Login and Registration System</h2>
-      <h5>Welcome to my login an registration system.  Please create an account =)</h5>
-      <h5><a href="/main/features">View Features</a></h5>
-      <h5><a href="/main/vulnerabilities">View Known Vulnerabilities</a></h5>
+      <h5>Welcome to my login and registration system.  Please create an account =)</h5>
+      <h5></h5><a href="/main/features">View Features</a></h5></h5>
+      <h5></h5><a href="/main/vulnerabilities">View Known Vulnerabilities</a></h5></h5>
 
 
       <h3>Login</h3>

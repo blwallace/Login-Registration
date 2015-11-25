@@ -19,7 +19,7 @@ $.post( "/users/answer", { email: $("#emailreset").val(), answer:$("#answerreset
 				  .done(function( data )			 
 </b>
 <br>
-<br>
+
 <p>Easy enough. The POST request goes to '/users/reset password' and sends the user email and answer to the reset password question.  Additionally, code from that function gives us a flag if the POST request is successful (below)</p>
 <br>
 <b>//do this if the answer was correct<br>
