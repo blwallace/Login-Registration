@@ -17,6 +17,16 @@ class Main extends CI_Controller {
 		$this->load->view('index');
 		$this->load->view('login_registration');
 	}
+
+	public function vulnerabilities(){
+		$this->load->view('index');
+		$this->load->view('vulnerabilities');
+
+	}
+
+	public function brute_force(){
+		$this->load->view('brute_force');
+	}
 }
 
 //end of main controller

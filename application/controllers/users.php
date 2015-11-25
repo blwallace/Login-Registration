@@ -15,76 +15,80 @@ class Users extends CI_Controller {
 
 	}
 
-	public function login()
-	{
-		$email = $this->input->post('email');
-		$password = $this->input->post('password');
+    public function login(){
+        print_r($_REQUEST);
+    }
 
-		$data_users = $this->user->get_user($email);
+	// public function login()
+	// {
+	// 	$email = $this->input->post('email');
+	// 	$password = $this->input->post('password');
+
+	// 	$data_users = $this->user->get_user($email);
 		
 
-      	if(isset($data_users[0]))
-        {
-        	$data = $data_users[0];
+ //      	if(isset($data_users[0]))
+ //        {
+ //        	$data = $data_users[0];
 
-            if(password_verify($password,$data['password'])) //do the encrypted passwords match? if yes, then log in
-            {
-                //log the login
-                $this->user->login_attempt_successful($data['id'],$this->input->ip_address());
+ //            if(password_verify($password,$data['password'])) //do the encrypted passwords match? if yes, then log in
+ //            {
+ //                //log the login
+ //                $this->user->login_attempt_successful($data['id'],$this->input->ip_address());
 
-                $user = array(
-                   'user_id' => $data['id'],
-                   'user_email' => $data['email'],
-                   'user_name' => $data['user_name'],
-                   'alias' => $data['alias'],
-                   'is_logged_in' => true,
-                   'updated_at' => $data['updated_at'],
-                );
-                if(!$this->check_login_expiration('-60 day','Now',$data['updated_at']))
-                {
-                    $this->session->set_flashdata("login_error", "Last password change was >60 days ago. <a href = '/users/reset'>Please consider resetting your password </a>");
-                }
-                $this->session->set_userdata($user);
-				redirect('/friends/index');	
-            }
-            else
-            {
-                $this->session->set_flashdata("login_error", "Invalid email or password!");
-                if(isset($data_users[0]))
-                {
-                    $this->user->login_attempt_unsuccessful($data['id'],$this->input->ip_address());
+ //                $user = array(
+ //                   'user_id' => $data['id'],
+ //                   'user_email' => $data['email'],
+ //                   'user_name' => $data['user_name'],
+ //                   'alias' => $data['alias'],
+ //                   'is_logged_in' => true,
+ //                   'updated_at' => $data['updated_at'],
+ //                );
+ //                if(!$this->check_login_expiration('-60 day','Now',$data['updated_at']))
+ //                {
+ //                    $this->session->set_flashdata("login_error", "Last password change was >60 days ago. <a href = '/users/reset'>Please consider resetting your password </a>");
+ //                }
+ //                $this->session->set_userdata($user);
+	// 			redirect('/friends/index');	
+ //            }
+ //            else
+ //            {
+ //                $this->session->set_flashdata("login_error", "Invalid email or password!");
+ //                if(isset($data_users[0]))
+ //                {
+ //                    $this->user->login_attempt_unsuccessful($data['id'],$this->input->ip_address());
                     
-                    if($this->check_logins_fail($data['id'])){
-                        $this->session->set_flashdata("login_error", "Invalid email or password! Too many Login Failures, your account has been locked.  ");
-                        $this->kill_account($data['email']);
-                        redirect('/users/reset');  
-                    }
-                }
-                redirect('');
+ //                    if($this->check_logins_fail($data['id'])){
+ //                        $this->session->set_flashdata("login_error", "Invalid email or password! Too many Login Failures, your account has been locked.  ");
+ //                        $this->kill_account($data['email']);
+ //                        redirect('/users/reset');  
+ //                    }
+ //                }
+ //                redirect('');
                      
-            }
-        }
+ //            }
+ //        }
 
-        else
-             {
-                $this->session->set_flashdata("login_error", "Invalid email or password!");
-                if(isset($data_users[0]))
-                {
-                    $this->user->login_attempt_unsuccessful($data['id'],$this->input->ip_address());
+ //        else
+ //             {
+ //                $this->session->set_flashdata("login_error", "Invalid email or password!");
+ //                if(isset($data_users[0]))
+ //                {
+ //                    $this->user->login_attempt_unsuccessful($data['id'],$this->input->ip_address());
                     
-                    if($this->check_logins_fail($data['id'])){
-                        $this->session->set_flashdata("login_error", "Invalid email or password! Too many Login Failures");
-                        $this->kill_account($data['email']);
-                        redirect('/users/reset');  
-                    }
-                }
-                redirect('');
+ //                    if($this->check_logins_fail($data['id'])){
+ //                        $this->session->set_flashdata("login_error", "Invalid email or password! Too many Login Failures");
+ //                        $this->kill_account($data['email']);
+ //                        redirect('/users/reset');  
+ //                    }
+ //                }
+ //                redirect('');
                      
-            }
+ //            }
 
 
-		$this->load->view('index');  
-	}
+	// 	$this->load->view('index');  
+	// }
 
 	public function logout()
 	{
@@ -287,6 +291,8 @@ class Users extends CI_Controller {
                 echo $password;
             }
     }
+
+
 
 
 

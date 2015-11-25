@@ -18,7 +18,7 @@ class User extends CI_Model {
 
 	public function get_user($email)
 	{
-		$query = 'SELECT * FROM users WHERE email like? and deleted_at IS NULL';
+		$query = 'SELECT * FROM users WHERE email like ? and deleted_at IS NULL';
 		$values = $email;
 		return $this->db->query($query,$values)->result_array();
 	}	
