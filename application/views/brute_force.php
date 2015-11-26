@@ -21,7 +21,7 @@
 
 		i = 0;
 		function carCheck(ticker){
-			$.post( "http://localhost:8888/users/answer", { email: 'obama@uchicago.edu', answer: cars[ticker]})
+			$.post( "/users/answer", { email: 'obama@uchicago.edu', answer: cars[ticker]})
 				  .done(function( data ) {
 				  	console.log("<br> Car Tested: " + cars[ticker] + ",Try Number: " + ticker +	 "Data Loaded: " + data );
 				  	$('body').append("<br> Car Tested: " + cars[ticker] + ",   Try Number: " + ticker +	 "    Data Loaded: " + data );
