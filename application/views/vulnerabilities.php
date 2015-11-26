@@ -1,8 +1,8 @@
 <div class="container">
   <div class="row">
     <div class="col-md-12">
-<h2>List of Known Vulnerabilitiy Exploits</h2>
-<div><h3>Brute Force Password Reset Question</h3>
+<h2>List of Known Vulnerability Exploits</h2>
+<div><h3><u>Brute Force Password Reset Question</u></h3>
 <p>The password reset option should have two safeguards to validate the user. The user should be able to answer a security question and the user should be able to verify that he or she has access to the email account used during registration.  However, the application currently does not send emails, so the user only needs to know a login email and the answer to a security question in order to successfully reset a password and take over an account.</p>
 
 <p>Upon closer inspection, a user with malicious intent would notice a POST request in the javascript</p>
@@ -32,17 +32,17 @@ if(data == 1)</b>
 <p>That page ran a script to loop through all current car models. Do a search on the page and look for "Loaded: 1". This indicates that we were successfully able to guess the car model. Now we can basically reset Obama's password and take over his account.</p>
 </div>
 <div>
-	<br><br>
-<h3>Unsecure Connection: No HTTPS connection</h3>
+	
+<h3><u>Unsecure Connection: No HTTPS connection</u></h3>
 <p>Every system that requires a username and password should have a secure HTTPS connection and be registered with a Certificate Authority.  This system does not have a secure HTTPS connection, so all the information being sent to the server is in Plaintext.</p>
-<p>This leave the user very vulnerable because he or she might be re-using a password.  Another user with malicious intent on the same network might use a program like Wireshark to sniff unencrypted communication over a wireless network.  Upon finding a POST HTTP request, the user can simply parse the data and view the user login </p>
+<p>This leaves the user very vulnerable because he or she might be re-using a password.  Another user with malicious intent (on the same wireless network) might use a program like Wireshark to sniff unencrypted HTTP requests.  Upon finding a POST HTTP request, the user can simply parse the data and view the user login </p>
 <img src="/assets/img/login.png" width = "750">
 <br><br><br>
 </div>
 
 <div>
 
-<h3>Front End Javascript Manipulation</h3>
+<h3><u>Front End Javascript Manipulation</u></h3>
 <p>Some password checking rules are run in the client browser using Javascript.  That means that the client has some control over the way these verification rules work.  For example, the user can manipulate the verification rules so he or she does not need to enter a special character or upper case chaacter.  </p>
 
 <p>The example below shows how the user can manipulate javascript and force the system to take a bad input. </p>

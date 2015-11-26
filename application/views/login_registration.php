@@ -15,6 +15,7 @@
       <h5>Welcome to my login and registration system.  Please create an account =)</h5>
       <h5></h5><a href="/main/features">View Features</a></h5></h5>
       <h5></h5><a href="/main/vulnerabilities">View Known Vulnerabilities</a></h5></h5>
+      <h5></h5><a href="/main/feedback">View My Feedback</a></h5></h5>      
 
 
       <h3>Login</h3>

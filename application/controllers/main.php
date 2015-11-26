@@ -32,6 +32,11 @@ class Main extends CI_Controller {
 		$this->load->view('index');
 		$this->load->view('features');
 	}
+
+	public function feedback(){
+		$this->load->view('index');
+		$this->load->view('feedback');
+	}
 }
 
 //end of main controller
