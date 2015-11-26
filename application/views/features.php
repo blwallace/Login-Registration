@@ -102,7 +102,7 @@
 
 		
 
-		<h3><u>User password reset options with question/answer format</h3></u>
+		<h3><u>Limit failed login attempts</h3></u>
 
 		<h4>TL;DR</h4> <p>Users have 5 attempts to enter a correct password.  If they are not successful, they need to reset their password</p>
 
@@ -118,7 +118,7 @@
 		
 
 
-		<h3><u>User password reset options with question/answer format</h3></u>
+		<h3><u>Password history feature</h3></u>
 		<h4>TL;DR</h4> <p>Users cannot reset their password to a password they originally used</p>
 
 		<h4>Technical Overview</h4><p> Each user password is hashed and stored in the 'account_history' table.  When a user attempts to reset his or her password, the web server pulls all the users previous passwords and checks to see if there are any duplicates.  If we establish that there are no duplicates, the user can then finish resetting his or her password.</p>
@@ -126,7 +126,7 @@
 
 		
 
-		<h3><u>User password reset options with question/answer format</h3></u>
+		<h3><u>SQL injection preventions</h3></u>
 
 		<h4>TL;DR</h4> <p>Applicatoin uses default CodeIgniter SQL injection prevention functions.</p>
 
